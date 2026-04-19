@@ -4,6 +4,7 @@ import ast
 import collections.abc as cabc
 import importlib.metadata
 import inspect
+import json
 import os
 import platform
 import re
@@ -1057,18 +1058,57 @@ def shell_command() -> None:
     ),
 )
 @click.option("--all-methods", is_flag=True, help="Show HEAD and OPTIONS methods.")
+@click.option("--json", "output_json", is_flag=True, help="Output routes as JSON.")
 @with_appcontext
-def routes_command(sort: str, all_methods: bool) -> None:
-    """Show all registered routes with endpoints and methods."""
+def routes_command(sort: str, all_methods: bool, output_json: bool) -> None:
+    """Show all registered routes with endpoints and methods.
+
+    :param sort: Column to sort by.
+    :param all_methods: Include HEAD and OPTIONS in the methods column.
+    :param output_json: Emit JSON instead of a text table.
+
+    .. versionchanged:: 3.2
+        Added the ``--json`` flag.
+    """
     rules = list(current_app.url_map.iter_rules())
+    ignored_methods = set() if all_methods else {"HEAD", "OPTIONS"}
+    host_matching = current_app.url_map.host_matching
+    has_domain = any(rule.host if host_matching else rule.subdomain for rule in rules)
+
+    if output_json:
+        data: list[dict[str, t.Any]] = []
+
+        for rule in rules:
+            entry: dict[str, t.Any] = {
+                "endpoint": rule.endpoint,
+                "methods": sorted((rule.methods or set()) - ignored_methods),
+                "rule": rule.rule,
+            }
+
+            if has_domain:
+                if host_matching:
+                    entry["host"] = rule.host or ""
+                else:
+                    entry["subdomain"] = rule.subdomain or ""
+
+            data.append(entry)
+
+        sort_key_map: dict[str, t.Callable[[dict[str, t.Any]], str]] = {
+            "endpoint": lambda e: e["endpoint"],
+            "methods": lambda e: ", ".join(e["methods"]),
+            "domain": lambda e: e.get("host", e.get("subdomain", "")),
+            "rule": lambda e: e["rule"],
+        }
+        if sort in sort_key_map:
+            data.sort(key=sort_key_map[sort])
+
+        click.echo(json.dumps(data, indent=2))
+        return
 
     if not rules:
         click.echo("No routes were registered.")
         return
 
-    ignored_methods = set() if all_methods else {"HEAD", "OPTIONS"}
-    host_matching = current_app.url_map.host_matching
-    has_domain = any(rule.host if host_matching else rule.subdomain for rule in rules)
     rows = []
 
     for rule in rules:
