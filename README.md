@@ -19,6 +19,14 @@ community that make adding new functionality easy.
 
 ## A Simple Example
 
+Install Flask first:
+
+```bash
+pip install flask
+```
+
+Then create `app.py`:
+
 ```python
 # save this as app.py
 from flask import Flask
@@ -29,6 +37,8 @@ app = Flask(__name__)
 def hello():
     return "Hello, World!"
 ```
+
+Run the development server:
 
 ```
 $ flask run
