@@ -1406,11 +1406,21 @@ class Flask(App):
         """
         for func in ctx._after_request_functions:
             response = self.ensure_sync(func)(response)
+            if response is None:
+                raise TypeError(
+                    f"The after_request handler '{func.__name__}' must return a"
+                    " Response object. It returned None."
+                )
 
         for name in chain(ctx.request.blueprints, (None,)):
             if name in self.after_request_funcs:
                 for func in reversed(self.after_request_funcs[name]):
                     response = self.ensure_sync(func)(response)
+                    if response is None:
+                        raise TypeError(
+                            f"The after_request handler '{func.__name__}' must return a"
+                            " Response object. It returned None."
+                        )
 
         if not self.session_interface.is_null_session(ctx._get_session()):
             self.session_interface.save_session(self, ctx._get_session(), response)
