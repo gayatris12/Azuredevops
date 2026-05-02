@@ -59,6 +59,25 @@ versions that added necessary features. You should use the latest
 versions of each.
 
 
+uv
+--------------------
+
+`uv`_ is an extremely fast Python package and project manager.
+It's a single tool that can manage dependencies and virtual environments.
+
+Set up a new Flask project using `uv`
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+.. code-block:: text
+
+         $ uv init myproject
+         $ cd myproject
+         $ uv add flask
+
+
+.. _uv: https://docs.astral.sh/uv/
+
+
 Virtual environments
 --------------------
 
