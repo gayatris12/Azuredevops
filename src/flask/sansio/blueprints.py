@@ -199,7 +199,7 @@ class Blueprint(Scaffold):
             raise ValueError("'name' may not contain a dot '.' character.")
 
         self.name = name
-        self.url_prefix = url_prefix
+        self._url_prefix = url_prefix
         self.subdomain = subdomain
         self.deferred_functions: list[DeferredSetupFunction] = []
 
@@ -209,6 +209,57 @@ class Blueprint(Scaffold):
         self.url_values_defaults = url_defaults
         self.cli_group = cli_group
         self._blueprints: list[tuple[Blueprint, dict[str, t.Any]]] = []
+        self._registrations: dict[str, dict[str, t.Any]] = {}
+
+    @property
+    def url_prefix(self) -> str | None:
+        """The URL prefix for this blueprint as set during initialization.
+
+        To get the full URL prefix including parent blueprint prefixes after
+        registration, use :attr:`full_url_prefix` or
+        :meth:`get_registered_url_prefix`.
+
+        .. versionadded:: 0.7
+        """
+        return self._url_prefix
+
+    @url_prefix.setter
+    def url_prefix(self, value: str | None) -> None:
+        self._url_prefix = value
+
+    @property
+    def full_url_prefix(self) -> str | None:
+        """The full URL prefix for this blueprint including any parent blueprint
+        prefixes.
+
+        If the blueprint has been registered exactly once, returns the full
+        URL prefix. If the blueprint has not been registered or has been
+        registered multiple times, returns None.
+
+        To get the URL prefix for a specific registration when the blueprint
+        has been registered multiple times, use :meth:`get_registered_url_prefix`.
+
+        .. versionadded:: 3.1
+        """
+        if len(self._registrations) == 1:
+            return next(iter(self._registrations.values())).get("url_prefix")
+        return None
+
+    def get_registered_url_prefix(self, name: str | None = None) -> str | None:
+        """Get the full URL prefix for a specific registration of this blueprint.
+
+        :param name: The registration name. If not provided and the blueprint
+            has been registered exactly once, returns that registration's prefix.
+        :return: The full URL prefix for the registration, or None if not found.
+
+        .. versionadded:: 3.1
+        """
+        if name is None:
+            if len(self._registrations) == 1:
+                return next(iter(self._registrations.values())).get("url_prefix")
+            return None
+        registration = self._registrations.get(name)
+        return registration.get("url_prefix") if registration else None
 
     def _check_setup_finished(self, f_name: str) -> None:
         if self._got_registered_once:
@@ -319,6 +370,13 @@ class Blueprint(Scaffold):
         app.blueprints[name] = self
         self._got_registered_once = True
         state = self.make_setup_state(app, options, first_bp_registration)
+
+        self._registrations[name] = {
+            "url_prefix": state.url_prefix,
+            "subdomain": state.subdomain,
+            "name": name,
+            "options": options.copy(),
+        }
 
         if self.has_static_folder:
             state.add_url_rule(
