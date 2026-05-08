@@ -74,7 +74,8 @@ Virtual environments are independent groups of Python libraries, one for each
 project. Packages installed for one project will not affect other projects or
 the operating system's packages.
 
-Python comes bundled with the :mod:`venv` module to create virtual
+Python comes bundled with the :mod:`venv`
+ module to create virtual
 environments.
 
 
@@ -124,6 +125,13 @@ Before you work on your project, activate the corresponding environment:
       .. code-block:: text
 
          > .venv\Scripts\activate
+
+      .. note::
+
+         If you are using Git Bash on Windows, activate the
+         virtual environment with:
+
+         ``source .venv/Scripts/activate``
 
 Your shell prompt will change to show the name of the activated
 environment.
