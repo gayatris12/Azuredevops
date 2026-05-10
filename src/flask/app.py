@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import collections.abc as cabc
 import inspect
+import logging
 import os
 import sys
 import typing as t
-import warnings
 import weakref
 from datetime import timedelta
 from functools import update_wrapper
@@ -742,22 +742,19 @@ class Flask(App):
         options.setdefault("threaded", True)
 
         if host not in {"127.0.0.1", "localhost", "::1"}:
-            warnings.warn(
-                f"The Flask development server is binding to '{host}', which "
+            logging.getLogger(__name__).warning(
+                "The Flask development server is binding to '%s', which "
                 "makes it accessible on the network. The development server "
                 "is not intended for production use and the Werkzeug debugger "
                 "can execute arbitrary code if exposed.",
-                RuntimeWarning,
-                stacklevel=2,
+                host,
             )
             if self.debug:
-                warnings.warn(
+                logging.getLogger(__name__).warning(
                     "Debug mode is enabled while the development server is "
                     "accessible on the network. The Werkzeug debugger allows "
                     "arbitrary code execution — do NOT use this configuration "
-                    "in production or on untrusted networks.",
-                    RuntimeWarning,
-                    stacklevel=2,
+                    "in production or on untrusted networks."
                 )
 
         cli.show_server_banner(self.debug, self.name)
