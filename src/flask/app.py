@@ -5,6 +5,7 @@ import inspect
 import os
 import sys
 import typing as t
+import warnings
 import weakref
 from datetime import timedelta
 from functools import update_wrapper
@@ -14,7 +15,6 @@ from types import TracebackType
 from urllib.parse import quote as _url_quote
 
 import click
-import warnings
 from werkzeug.datastructures import Headers
 from werkzeug.datastructures import ImmutableDict
 from werkzeug.exceptions import BadRequestKeyError
