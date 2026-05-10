@@ -14,6 +14,7 @@ from types import TracebackType
 from urllib.parse import quote as _url_quote
 
 import click
+import warnings
 from werkzeug.datastructures import Headers
 from werkzeug.datastructures import ImmutableDict
 from werkzeug.exceptions import BadRequestKeyError
@@ -739,6 +740,25 @@ class Flask(App):
         options.setdefault("use_reloader", self.debug)
         options.setdefault("use_debugger", self.debug)
         options.setdefault("threaded", True)
+
+        if host not in {"127.0.0.1", "localhost", "::1"}:
+            warnings.warn(
+                f"The Flask development server is binding to '{host}', which "
+                "makes it accessible on the network. The development server "
+                "is not intended for production use and the Werkzeug debugger "
+                "can execute arbitrary code if exposed.",
+                RuntimeWarning,
+                stacklevel=2,
+            )
+            if self.debug:
+                warnings.warn(
+                    "Debug mode is enabled while the development server is "
+                    "accessible on the network. The Werkzeug debugger allows "
+                    "arbitrary code execution — do NOT use this configuration "
+                    "in production or on untrusted networks.",
+                    RuntimeWarning,
+                    stacklevel=2,
+                )
 
         cli.show_server_banner(self.debug, self.name)
 
