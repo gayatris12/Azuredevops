@@ -39,9 +39,9 @@ Pip will install your project along with its dependencies.
 Since this is a different machine, you need to run ``init-db`` again to
 create the database in the instance folder.
 
-    .. code-block:: text
+.. code-block:: text
 
-        $ flask --app flaskr init-db
+    $ flask --app flaskr init-db
 
 When Flask detects that it's installed (not in editable mode), it uses
 a different directory for the instance folder. You can find it at
@@ -71,6 +71,12 @@ will read from if it exists. Copy the generated value into it.
     :caption: ``.venv/var/flaskr-instance/config.py``
 
     SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
+
+.. warning::
+    Never commit the file containing your production ``SECRET_KEY`` to version 
+    control. Ensure that your ``.gitignore`` file excludes the ``instance/`` 
+    folder and the specific ``config.py`` file to prevent leaking your secret 
+    key to a public repository.
 
 You can also set any other necessary configuration here, although
 ``SECRET_KEY`` is the only one needed for Flaskr.
