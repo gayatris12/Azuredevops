@@ -470,7 +470,7 @@ def _set_debug(ctx: click.Context, param: click.Option, value: bool) -> bool | N
     # that, let debug be set by env in that case.
     source = ctx.get_parameter_source(param.name)
 
-    if source is not None and source in (
+    if source is None or source in (
         ParameterSource.DEFAULT,
         ParameterSource.DEFAULT_MAP,
     ):

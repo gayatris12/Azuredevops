@@ -382,6 +382,30 @@ def test_flaskgroup_debug(runner, set_debug_flag):
     assert result.output == f"{not set_debug_flag}\n"
 
 
+def test_flaskgroup_debug_env(monkeypatch, runner):
+    """FLASK_DEBUG=1 env var should not be overwritten when --debug is not
+    explicitly passed. Regression test for click 8.4.0 where
+    get_parameter_source returns None during eager callbacks.
+    """
+    monkeypatch.setenv("FLASK_DEBUG", "1")
+
+    def create_app():
+        app = Flask("flaskgroup")
+        return app
+
+    @click.group(cls=FlaskGroup, create_app=create_app)
+    def cli(**params):
+        pass
+
+    @cli.command()
+    def test():
+        click.echo(os.environ.get("FLASK_DEBUG"))
+
+    result = runner.invoke(cli, ["test"])
+    assert result.exit_code == 0
+    assert result.output.strip() == "1"
+
+
 def test_flaskgroup_nested(app, runner):
     cli = click.Group("cli")
     flask_group = FlaskGroup(name="flask", create_app=lambda: app)
