@@ -336,13 +336,13 @@ Signals are provided by the `Blinker`_ library. See :doc:`signals` for an introd
 
    Example subscriber::
 
+        from flask import template_rendered
+
+        @template_rendered.connect_via(app)
         def log_template_renders(sender, template, context, **extra):
             sender.logger.debug('Rendering template "%s" with context %s',
                                 template.name or 'string template',
                                 context)
-
-        from flask import template_rendered
-        template_rendered.connect(log_template_renders, app)
 
 .. data:: flask.before_render_template
    :noindex:
@@ -370,11 +370,11 @@ Signals are provided by the `Blinker`_ library. See :doc:`signals` for an introd
 
    Example subscriber::
 
+        from flask import request_started
+
+        @request_started.connect_via(app)
         def log_request(sender, **extra):
             sender.logger.debug('Request context is set up')
-
-        from flask import request_started
-        request_started.connect(log_request, app)
 
 .. data:: request_finished
 
