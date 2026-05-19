@@ -206,6 +206,14 @@ previous page.
     you use a new terminal, remember to change to your project directory
     and activate the env as described in :doc:`/installation`.
 
+.. warning::
+
+    The ``init-db`` command will run the ``schema.sql`` file, which starts by 
+    dropping the existing ``user`` and ``post`` tables. **Running this command 
+    will permanently delete any existing data in your database.** Only run it 
+    when you are setting up the project for the first time or if you intentionally 
+    want to start over with an empty database.
+
 Run the ``init-db`` command:
 
 .. code-block:: none
