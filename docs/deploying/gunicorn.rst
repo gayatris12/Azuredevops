@@ -71,6 +71,41 @@ errors are shown. To show access logs on stdout, use the
 ``--access-logfile=-`` option.
 
 
+Configuration File
+------------------
+
+While passing arguments to Gunicorn via the command line is useful for simple 
+setups, production deployments usually rely on a configuration file. 
+
+Create a file named ``gunicorn.conf.py`` in your project directory:
+
+.. code-block:: python
+
+    # gunicorn.conf.py
+    bind = "127.0.0.1:8000"
+    workers = 4
+    accesslog = "-"
+
+You can then run Gunicorn by pointing it to your configuration file using 
+the ``-c`` option:
+
+.. code-block:: text
+
+    $ gunicorn -c gunicorn.conf.py 'example:app'
+
+
+Running in the Background
+-------------------------
+
+Running Gunicorn from the command line blocks the terminal. For production 
+deployments, you should use a process manager like ``systemd`` or ``supervisor`` 
+to run Gunicorn in the background, start it automatically on boot and restart 
+it if it crashes. 
+
+See the Gunicorn documentation on `Deploying Gunicorn <https://docs.gunicorn.org/en/latest/deploy.html>`_ 
+for examples of systemd service files.
+
+
 Binding Externally
 ------------------
 
@@ -91,6 +126,13 @@ otherwise it will be possible to bypass the proxy.
 
 ``0.0.0.0`` is not a valid address to navigate to, you'd use a specific
 IP address in your browser.
+
+.. note::
+    When running Gunicorn behind a reverse proxy, the proxy will intercept the 
+    client's IP address. To ensure your Flask application correctly reads the 
+    forwarded headers (like ``X-Forwarded-For``), you must apply the 
+    :class:`~werkzeug.middleware.proxy_fix.ProxyFix` middleware. See 
+    :doc:`proxy_fix` for more information.
 
 
 Async with gevent
