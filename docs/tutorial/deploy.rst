@@ -73,9 +73,9 @@ will read from if it exists. Copy the generated value into it.
     SECRET_KEY = '192b9bdd22ab9ed4d12e236c78afcb9a393ec15f71bbf5dc987d54727823bcbf'
 
 .. warning::
-    Never commit the file containing your production ``SECRET_KEY`` to version 
-    control. Ensure that your ``.gitignore`` file excludes the ``instance/`` 
-    folder and the specific ``config.py`` file to prevent leaking your secret 
+    Never commit the file containing your production ``SECRET_KEY`` to version
+    control. Ensure that your ``.gitignore`` file excludes the ``instance/``
+    folder and the specific ``config.py`` file to prevent leaking your secret
     key to a public repository.
 
 You can also set any other necessary configuration here, although

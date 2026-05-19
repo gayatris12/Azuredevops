@@ -74,8 +74,8 @@ errors are shown. To show access logs on stdout, use the
 Configuration File
 ------------------
 
-While passing arguments to Gunicorn via the command line is useful for simple 
-setups, production deployments usually rely on a configuration file. 
+While passing arguments to Gunicorn via the command line is useful for simple
+setups, production deployments usually rely on a configuration file.
 
 Create a file named ``gunicorn.conf.py`` in your project directory:
 
@@ -86,7 +86,7 @@ Create a file named ``gunicorn.conf.py`` in your project directory:
     workers = 4
     accesslog = "-"
 
-You can then run Gunicorn by pointing it to your configuration file using 
+You can then run Gunicorn by pointing it to your configuration file using
 the ``-c`` option:
 
 .. code-block:: text
@@ -97,12 +97,12 @@ the ``-c`` option:
 Running in the Background
 -------------------------
 
-Running Gunicorn from the command line blocks the terminal. For production 
-deployments, you should use a process manager like ``systemd`` or ``supervisor`` 
-to run Gunicorn in the background, start it automatically on boot and restart 
-it if it crashes. 
+Running Gunicorn from the command line blocks the terminal. For production
+deployments, you should use a process manager like ``systemd`` or ``supervisor``
+to run Gunicorn in the background, start it automatically on boot and restart
+it if it crashes.
 
-See the Gunicorn documentation on `Deploying Gunicorn <https://docs.gunicorn.org/en/latest/deploy.html>`_ 
+See the Gunicorn documentation on `Deploying Gunicorn <https://docs.gunicorn.org/en/latest/deploy.html>`_
 for examples of systemd service files.
 
 
@@ -128,10 +128,10 @@ otherwise it will be possible to bypass the proxy.
 IP address in your browser.
 
 .. note::
-    When running Gunicorn behind a reverse proxy, the proxy will intercept the 
-    client's IP address. To ensure your Flask application correctly reads the 
-    forwarded headers (like ``X-Forwarded-For``), you must apply the 
-    :class:`~werkzeug.middleware.proxy_fix.ProxyFix` middleware. See 
+    When running Gunicorn behind a reverse proxy, the proxy will intercept the
+    client's IP address. To ensure your Flask application correctly reads the
+    forwarded headers (like ``X-Forwarded-For``), you must apply the
+    :class:`~werkzeug.middleware.proxy_fix.ProxyFix` middleware. See
     :doc:`proxy_fix` for more information.
 
 
