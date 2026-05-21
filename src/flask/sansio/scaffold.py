@@ -288,7 +288,10 @@ class Scaffold:
         options: dict[str, t.Any],
     ) -> t.Callable[[T_route], T_route]:
         if "methods" in options:
-            raise TypeError("Use the 'route' decorator to use the 'methods' argument.")
+            raise TypeError(
+                "The 'methods' argument is not allowed when using "
+                f"'{method.lower()}' decorator. Use the 'route' decorator instead."
+            )
 
         return self.route(rule, methods=[method], **options)
 
