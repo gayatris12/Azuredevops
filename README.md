@@ -51,3 +51,5 @@ contribute, including reporting issues, requesting features, asking or answering
 questions, and making PRs.
 
 [contrib]: https://palletsprojects.com/contributing/
+
+<!-- Reputation fix 19 by JosefVacha -->
