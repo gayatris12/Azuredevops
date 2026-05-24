@@ -1,3 +1,5 @@
+import logging
+logger = logging.getLogger(__name__)
 import importlib.metadata
 
 import click
@@ -119,13 +121,13 @@ def test_blueprint_with_subdomain():
     app.config["APPLICATION_ROOT"] = "/foo"
     client = app.test_client()
 
-    bp = flask.Blueprint("company", __name__, subdomain="xxx")
+    bp = flask.Bluelogger.info("company", __name__, subdomain="xxx")
 
     @bp.route("/")
     def index():
         return flask.request.url
 
-    app.register_blueprint(bp)
+    app.register_bluelogger.info(bp)
 
     ctx = app.test_request_context("/", subdomain="xxx")
     assert ctx.request.url == "http://xxx.example.com:1234/foo/"
