@@ -215,7 +215,7 @@ Everything else is up for extensions.
 Why is this the case?  Because people have different preferences and
 requirements and Flask could not meet those if it would force any of this
 into the core.  The majority of web applications will need a template
-engine in some sort.  However not every application needs a SQL database.
+engine in some sort.  However not every application needs an SQL database.
 
 As your codebase grows, you are free to make the design decisions appropriate
 for your project.  Flask will continue to provide a very simple glue layer to
