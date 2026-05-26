@@ -24,9 +24,9 @@ from .globals import current_app
 from .helpers import get_debug_flag
 from .helpers import get_load_dotenv
 
-if t.TYPE_CHECKING:
-    import ssl
+import ssl
 
+if t.TYPE_CHECKING:
     from _typeshed.wsgi import StartResponse
     from _typeshed.wsgi import WSGIApplication
     from _typeshed.wsgi import WSGIEnvironment
@@ -777,7 +777,7 @@ def show_server_banner(debug: bool, app_import_path: str | None) -> None:
         click.echo(f" * Debug mode: {'on' if debug else 'off'}")
 
 
-class CertParamType(click.ParamType[str | os.PathLike[str] | ssl.SSLContext]):
+class CertParamType(click.ParamType):  # type: ignore[type-arg]
     """Click option type for the ``--cert`` option. Allows either an
     existing file, the string ``'adhoc'``, or an import for a
     :class:`~ssl.SSLContext` object.
