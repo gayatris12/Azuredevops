@@ -7,6 +7,7 @@ import inspect
 import os
 import platform
 import re
+import ssl
 import sys
 import traceback
 import typing as t
@@ -25,8 +26,6 @@ from .helpers import get_debug_flag
 from .helpers import get_load_dotenv
 
 if t.TYPE_CHECKING:
-    import ssl
-
     from _typeshed.wsgi import StartResponse
     from _typeshed.wsgi import WSGIApplication
     from _typeshed.wsgi import WSGIEnvironment
