@@ -1,3 +1,13 @@
+"""
+Application signals for Flask.
+
+Provides Blinker signals for key application events such as request
+lifecycle, template rendering, and application context changes.
+
+These signals allow decoupled components to react to framework events
+without modifying core code.
+"""
+
 from __future__ import annotations
 
 from blinker import Namespace
