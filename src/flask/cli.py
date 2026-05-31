@@ -33,6 +33,10 @@ if t.TYPE_CHECKING:
 
     from .app import Flask
 
+    _CertParamTypeBase = click.ParamType[str | os.PathLike[str] | ssl.SSLContext]
+else:
+    _CertParamTypeBase = click.ParamType
+
 
 class NoAppException(click.UsageError):
     """Raised if an application cannot be found or loaded."""
@@ -777,7 +781,7 @@ def show_server_banner(debug: bool, app_import_path: str | None) -> None:
         click.echo(f" * Debug mode: {'on' if debug else 'off'}")
 
 
-class CertParamType(click.ParamType):
+class CertParamType(_CertParamTypeBase):
     """Click option type for the ``--cert`` option. Allows either an
     existing file, the string ``'adhoc'``, or an import for a
     :class:`~ssl.SSLContext` object.
