@@ -1,3 +1,11 @@
+"""
+Type aliases for Flask's public API.
+
+Defines the type aliases used throughout Flask for route return values,
+header values, and callback signatures. These provide precise type
+information for IDE support and static type checking.
+"""
+
 from __future__ import annotations
 
 import collections.abc as cabc
@@ -20,7 +28,7 @@ ResponseValue = t.Union[
     t.Iterator[bytes],
     cabc.AsyncIterable[str],  # for Quart, until App is generic.
     cabc.AsyncIterable[bytes],
-]
+:]
 
 # the possible types for an individual HTTP header
 HeaderValue = str | list[str] | tuple[str, ...]
@@ -30,7 +38,7 @@ HeadersValue = t.Union[
     "Headers",
     t.Mapping[str, HeaderValue],
     t.Sequence[tuple[str, HeaderValue]],
-]
+:]
 
 # The possible types returned by a route function.
 ResponseReturnValue = t.Union[
