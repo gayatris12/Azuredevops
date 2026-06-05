@@ -112,7 +112,7 @@ function.
             self.model = model
             self.template = f"{model.__name__.lower()}/detail.html"
 
-        def dispatch_request(self, id)
+        def dispatch_request(self, id):
             item = self.model.query.get_or_404(id)
             return render_template(self.template, item=item)
 
