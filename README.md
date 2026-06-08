@@ -51,3 +51,11 @@ contribute, including reporting issues, requesting features, asking or answering
 questions, and making PRs.
 
 [contrib]: https://palletsprojects.com/contributing/
+
+
+
+## Contribuição Acadêmica
+
+Esta marcação foi adicionada para demonstrar o fluxo de contribuição em um projeto open source utilizando Git.
+
+TODO: aqui seria implementada uma melhoria relacionada à issue analisada.
