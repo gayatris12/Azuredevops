@@ -2,6 +2,13 @@
 
 # Flask
 
+
+<!-- AUTO-PACKAGE-BADGES:START -->
+<!-- Auto-generated package badges -->
+
+![TestPyPI version](https://img.shields.io/testpypi/v/flask?style=flat-square&logo=pypi&color=orange) ![TestPyPI](https://img.shields.io/badge/testpypi-preview-orange?style=flat-square&logo=pypi) [![Deployed](https://img.shields.io/badge/deployed-unknown-blue?style=flat-square)](https://test.pypi.org/project/flask)
+
+<!-- AUTO-PACKAGE-BADGES:END -->
 Flask is a lightweight [WSGI] web application framework. It is designed
 to make getting started quick and easy, with the ability to scale up to
 complex applications. It began as a simple wrapper around [Werkzeug]
