@@ -27,6 +27,7 @@ community that make adding new functionality easy.
 ## A Simple Example
 
 ```python
+
 # save this as app.py
 from flask import Flask
 
