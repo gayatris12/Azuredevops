@@ -177,6 +177,11 @@ class Config(dict):  # type: ignore[type-arg]
                 # If an intermediate dict does not exist, create it.
                 if part not in current:
                     current[part] = {}
+                elif not isinstance(current[part], dict):
+                    raise ValueError(
+                        f"The environment variable {(prefix + key)!r} cannot be"
+                        f" set because {part!r} is already a non-dict config value."
+                    )
 
                 current = current[part]
 

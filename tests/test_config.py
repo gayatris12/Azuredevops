@@ -107,6 +107,18 @@ def test_from_prefixed_env_nested(monkeypatch):
     assert app.config["NEW"] == {"K": "v"}
 
 
+def test_from_prefixed_env_non_dict_intermediate(monkeypatch):
+    """from_prefixed_env raises ValueError with a clear message when a flat
+    env var is already set and a later nested key tries to traverse into it.
+    Sorted order guarantees FLASK_FOO is processed before FLASK_FOO__X."""
+    monkeypatch.setenv("FLASK_FOO", "bar")
+    monkeypatch.setenv("FLASK_FOO__X", "1")
+
+    app = flask.Flask(__name__)
+    with pytest.raises(ValueError, match="FLASK_FOO__X"):
+        app.config.from_prefixed_env()
+
+
 def test_config_from_mapping():
     app = flask.Flask(__name__)
     app.config.from_mapping({"SECRET_KEY": "config", "TEST_KEY": "foo"})
